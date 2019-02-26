@@ -1,0 +1,11 @@
+[package]
+name = "creative_coding_rs"
+version = "0.1.0"
+authors = ["h3nnn4n <uber.renan@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+png = "0.14.0"
+cairo-rs = { version = "0.6.0", features = ["png"] }
+rand = "0.6.5"
+coord = "0.11.0"
