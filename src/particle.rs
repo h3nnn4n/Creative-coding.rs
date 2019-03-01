@@ -37,6 +37,7 @@ impl Particle {
         self
     }
 
+    // TODO: I would like very much if this was in the builder pattern
     pub fn random_move(&mut self, range: f32) {
         self.position.x += rand::random::<f32>() * range - range / 2.0;
         self.position.y += rand::random::<f32>() * range - range / 2.0;
