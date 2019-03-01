@@ -4,13 +4,14 @@ extern crate cairo;
 extern crate rand;
 use coord::math::VecFloat;
 
+mod color_manager;
 mod context_manager;
 mod particle;
 
 fn main() {
     let n_particles = 50;
-    let n_moves = 250;
-    let move_range = 4.0;
+    let n_moves = 125;
+    let move_range = 8.0;
     let screen_x = 800;
     let screen_y = 800;
 
@@ -32,6 +33,7 @@ fn main() {
 
     context.set_source_rgba(1.0, 1.0, 1.0, 1.0);
     context.paint();
+    context.set_line_width(1.0);
 
     for _ in 0..n_moves {
         for particle in particles.iter_mut() {
@@ -48,7 +50,9 @@ fn draw_lines(particles: &Vec<particle::Particle>, context: &mut context_manager
     let n_particles = particles.len();
     let cutover_distance = 150.0;
 
-    context.set_source_rgba(0.0, 0.0, 0.0, 0.0075);
+    let (r, g, b) = color_manager::random_rgb_color();
+
+    context.set_source_rgba(r, g, b, 0.0125);
 
     for i in 0..n_particles {
         for j in (i + 1)..n_particles {

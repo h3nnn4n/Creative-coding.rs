@@ -46,6 +46,12 @@ impl ContextManager {
         self
     }
 
+    pub fn set_line_width(&mut self, width: f32) -> &mut Self {
+        self.context.set_line_width(width as f64);
+
+        self
+    }
+
     pub fn circle(&mut self, x: f32, y: f32, r: f32) -> &mut Self {
         self.context
             .arc(x as f64, y as f64, r as f64, 0.0, PI * 2.0);
