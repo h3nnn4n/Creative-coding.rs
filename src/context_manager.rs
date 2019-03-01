@@ -34,6 +34,12 @@ impl ContextManager {
         self
     }
 
+    pub fn paint(&mut self) -> &mut Self {
+        self.context.paint();
+
+        self
+    }
+
     pub fn stroke(&mut self) -> &mut Self {
         self.context.stroke();
 

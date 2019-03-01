@@ -9,7 +9,7 @@ mod particle;
 
 fn main() {
     let n_particles = 50;
-    let n_moves = 100;
+    let n_moves = 250;
     let move_range = 4.0;
     let screen_x = 800;
     let screen_y = 800;
@@ -31,7 +31,7 @@ fn main() {
     }
 
     context.set_source_rgba(1.0, 1.0, 1.0, 1.0);
-    context.fill();
+    context.paint();
 
     for _ in 0..n_moves {
         for particle in particles.iter_mut() {
@@ -48,7 +48,7 @@ fn draw_lines(particles: &Vec<particle::Particle>, context: &mut context_manager
     let n_particles = particles.len();
     let cutover_distance = 150.0;
 
-    context.set_source_rgba(0.0, 0.0, 0.0, 0.05);
+    context.set_source_rgba(0.0, 0.0, 0.0, 0.0075);
 
     for i in 0..n_particles {
         for j in (i + 1)..n_particles {
