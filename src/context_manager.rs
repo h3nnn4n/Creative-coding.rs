@@ -65,6 +65,13 @@ impl ContextManager {
         self
     }
 
+    pub fn set_source_rgba(&mut self, r: f32, g: f32, b: f32, a: f32) -> &mut Self {
+        self.context
+            .set_source_rgba(r as f64, g as f64, b as f64, a as f64);
+
+        self
+    }
+
     pub fn set_filename(&mut self, filename: String) -> &mut Self {
         self.filename = filename;
 

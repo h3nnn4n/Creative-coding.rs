@@ -37,6 +37,11 @@ impl Particle {
         self
     }
 
+    pub fn random_move(&mut self, range: f32) {
+        self.position.x += rand::random::<f32>() * range - range / 2.0;
+        self.position.y += rand::random::<f32>() * range - range / 2.0;
+    }
+
     pub fn set_bounds(&mut self, x: f32, y: f32) -> &mut Self {
         self.bounds.x = x;
         self.bounds.y = y;

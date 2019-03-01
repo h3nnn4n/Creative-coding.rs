@@ -9,6 +9,8 @@ mod particle;
 
 fn main() {
     let n_particles = 50;
+    let n_moves = 100;
+    let move_range = 4.0;
     let screen_x = 800;
     let screen_y = 800;
 
@@ -28,31 +30,25 @@ fn main() {
         particles.push(p);
     }
 
-    context.set_source_rgb(1.0, 1.0, 1.0);
+    context.set_source_rgba(1.0, 1.0, 1.0, 1.0);
     context.fill();
 
-    context.set_source_rgb(0.0, 0.0, 0.0);
+    for _ in 0..n_moves {
+        for particle in particles.iter_mut() {
+            particle.random_move(move_range);
+        }
 
-    for particle in &particles {
-        let x = particle.position.x;
-        let y = particle.position.y;
-        let r = particle.radius;
-
-        context.circle(x, y, r);
-
-        context.fill();
+        draw_lines(&particles, &mut context);
     }
-
-    draw_lines(particles, &mut context);
 
     context.save();
 }
 
-fn draw_lines(particles: Vec<particle::Particle>, context: &mut context_manager::ContextManager) {
+fn draw_lines(particles: &Vec<particle::Particle>, context: &mut context_manager::ContextManager) {
     let n_particles = particles.len();
     let cutover_distance = 150.0;
 
-    context.set_source_rgb(0.0, 0.0, 0.0);
+    context.set_source_rgba(0.0, 0.0, 0.0, 0.05);
 
     for i in 0..n_particles {
         for j in (i + 1)..n_particles {
