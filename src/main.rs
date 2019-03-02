@@ -11,7 +11,6 @@ mod particle;
 
 fn main() {
     let n_particles = 100;
-    let n_colors = 6;
     let n_moves = 75;
     let move_range = 8.0;
     let screen_x = 800;
@@ -20,9 +19,7 @@ fn main() {
     let mut particles = Vec::new();
 
     let mut context = context_manager::ContextManager::init(screen_x, screen_y);
-    context
-        .set_filename("output.png".to_string())
-        .set_line_width(1.0);
+    context.set_random_filename().set_line_width(1.0);
 
     for _ in 0..n_particles {
         let mut p = particle::Particle::init();
@@ -83,8 +80,8 @@ fn main() {
     let (r, g, b) = color_manager::rgb_array_to_tuple(
         RandomColor::new()
             .hue(Color::Red)
-            .luminosity(Luminosity::Dark)
-            .seed(63286)
+            .luminosity(Luminosity::Bright)
+            // .seed(63286)
             .to_rgb_array(),
     );
 
@@ -112,7 +109,7 @@ fn draw_plexus(
 
 fn draw_lines(particles: &Vec<particle::Particle>, context: &mut context_manager::ContextManager) {
     let n_particles = particles.len();
-    let cutover_distance = 150.0;
+    let cutover_distance = 125.0;
 
     for i in 0..n_particles {
         for j in (i + 1)..n_particles {

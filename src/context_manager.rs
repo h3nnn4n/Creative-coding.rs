@@ -1,4 +1,6 @@
 use cairo::{Context, Format, ImageSurface};
+use rand::distributions::Alphanumeric;
+use rand::Rng;
 use std::f64::consts::PI;
 use std::fs::File;
 
@@ -110,6 +112,18 @@ impl ContextManager {
 
     pub fn set_filename(&mut self, filename: String) -> &mut Self {
         self.filename = filename;
+
+        self
+    }
+
+    pub fn set_random_filename(&mut self) -> &mut Self {
+        self.filename = format!(
+            "{}.png",
+            rand::thread_rng()
+                .sample_iter(&Alphanumeric)
+                .take(10)
+                .collect::<String>()
+        );
 
         self
     }
