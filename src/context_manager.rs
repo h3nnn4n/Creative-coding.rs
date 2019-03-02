@@ -34,8 +34,20 @@ impl ContextManager {
         self
     }
 
+    pub fn reset_clip(&mut self) -> &mut Self {
+        self.context.reset_clip();
+
+        self
+    }
+
     pub fn fill(&mut self) -> &mut Self {
         self.context.fill();
+
+        self
+    }
+
+    pub fn fill_preserve(&mut self) -> &mut Self {
+        self.context.fill_preserve();
 
         self
     }
@@ -73,6 +85,12 @@ impl ContextManager {
 
     pub fn line_to(&mut self, x: f32, y: f32) -> &mut Self {
         self.context.line_to(x as f64, y as f64);
+
+        self
+    }
+
+    pub fn close_path(&mut self) -> &mut Self {
+        self.context.close_path();
 
         self
     }

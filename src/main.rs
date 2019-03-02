@@ -10,7 +10,7 @@ mod context_manager;
 mod particle;
 
 fn main() {
-    let n_particles = 50;
+    let n_particles = 100;
     let n_colors = 6;
     let n_moves = 75;
     let move_range = 8.0;
@@ -39,12 +39,16 @@ fn main() {
         .set_line_width(1.0);
 
     context
-        .circle((screen_x / 2) as f32, (screen_y / 2) as f32, 250.0)
+        .reset_clip()
+        .move_to(screen_x as f32, screen_y as f32)
+        .line_to(screen_x as f32, 0.0)
+        .line_to(0.0, screen_y as f32)
+        .close_path()
         .clip();
 
     let (r, g, b) = color_manager::rgb_array_to_tuple(
         RandomColor::new()
-            .hue(Color::Blue)
+            .hue(Color::Pink)
             .luminosity(Luminosity::Dark)
             .to_rgb_array(),
     );
@@ -53,10 +57,36 @@ fn main() {
 
     draw_plexus(n_moves, move_range, &mut particles, &mut context);
 
+    context
+        .reset_clip()
+        .move_to(0.0, 0.0)
+        .line_to(screen_x as f32, 0.0)
+        .line_to(0.0, screen_y as f32)
+        .close_path()
+        .clip();
+
+    let (r, g, b) = color_manager::rgb_array_to_tuple(
+        RandomColor::new()
+            .hue(Color::Blue)
+            .luminosity(Luminosity::Bright)
+            .to_rgb_array(),
+    );
+
+    context.set_source_rgba(r, g, b, 0.075);
+
+    draw_plexus(n_moves, move_range, &mut particles, &mut context);
+
+    context
+        .reset_clip()
+        .set_source_rgb(1.0, 1.0, 1.0)
+        .circle((screen_x / 2) as f32, (screen_y / 2) as f32, 250.0)
+        .fill_preserve()
+        .clip();
+
     let (r, g, b) = color_manager::rgb_array_to_tuple(
         RandomColor::new()
             .hue(Color::Red)
-            .luminosity(Luminosity::Dark)
+            .luminosity(Luminosity::Bright)
             .to_rgb_array(),
     );
 
