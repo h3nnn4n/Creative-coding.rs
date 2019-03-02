@@ -3,6 +3,7 @@ extern crate coord;
 extern crate cairo;
 extern crate rand;
 use coord::math::VecFloat;
+use random_color::{Color, Luminosity, RandomColor};
 
 mod color_manager;
 mod context_manager;
@@ -10,7 +11,8 @@ mod particle;
 
 fn main() {
     let n_particles = 50;
-    let n_moves = 125;
+    let n_colors = 6;
+    let n_moves = 25;
     let move_range = 8.0;
     let screen_x = 800;
     let screen_y = 800;
@@ -35,12 +37,25 @@ fn main() {
     context.paint();
     context.set_line_width(1.0);
 
-    for _ in 0..n_moves {
-        for particle in particles.iter_mut() {
-            particle.random_move(move_range);
-        }
+    for _ in 0..n_colors {
+        let color = RandomColor::new()
+            .hue(Color::Red)
+            .luminosity(Luminosity::Dark)
+            .seed(42)
+            .alpha(1.0)
+            .to_rgb_array();
 
-        draw_lines(&particles, &mut context);
+        let (r, g, b) = color_manager::rgb_array_to_tuple(color);
+
+        context.set_source_rgba(r, g, b, 0.075);
+
+        for _ in 0..n_moves {
+            for particle in particles.iter_mut() {
+                particle.random_move(move_range);
+            }
+
+            draw_lines(&particles, &mut context);
+        }
     }
 
     context.save();
@@ -49,10 +64,6 @@ fn main() {
 fn draw_lines(particles: &Vec<particle::Particle>, context: &mut context_manager::ContextManager) {
     let n_particles = particles.len();
     let cutover_distance = 150.0;
-
-    let (r, g, b) = color_manager::random_rgb_color();
-
-    context.set_source_rgba(r, g, b, 0.0125);
 
     for i in 0..n_particles {
         for j in (i + 1)..n_particles {
