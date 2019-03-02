@@ -28,6 +28,12 @@ impl ContextManager {
         }
     }
 
+    pub fn clip(&mut self) -> &mut Self {
+        self.context.clip();
+
+        self
+    }
+
     pub fn fill(&mut self) -> &mut Self {
         self.context.fill();
 

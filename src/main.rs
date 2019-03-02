@@ -12,7 +12,7 @@ mod particle;
 fn main() {
     let n_particles = 50;
     let n_colors = 6;
-    let n_moves = 25;
+    let n_moves = 75;
     let move_range = 8.0;
     let screen_x = 800;
     let screen_y = 800;
@@ -33,32 +33,53 @@ fn main() {
         particles.push(p);
     }
 
-    context.set_source_rgba(1.0, 1.0, 1.0, 1.0);
-    context.paint();
-    context.set_line_width(1.0);
+    context
+        .set_source_rgba(1.0, 1.0, 1.0, 1.0)
+        .paint()
+        .set_line_width(1.0);
 
-    for _ in 0..n_colors {
-        let color = RandomColor::new()
+    context
+        .circle((screen_x / 2) as f32, (screen_y / 2) as f32, 250.0)
+        .clip();
+
+    let (r, g, b) = color_manager::rgb_array_to_tuple(
+        RandomColor::new()
+            .hue(Color::Blue)
+            .luminosity(Luminosity::Dark)
+            .to_rgb_array(),
+    );
+
+    context.set_source_rgba(r, g, b, 0.075);
+
+    draw_plexus(n_moves, move_range, &mut particles, &mut context);
+
+    let (r, g, b) = color_manager::rgb_array_to_tuple(
+        RandomColor::new()
             .hue(Color::Red)
             .luminosity(Luminosity::Dark)
-            .seed(42)
-            .alpha(1.0)
-            .to_rgb_array();
+            .to_rgb_array(),
+    );
 
-        let (r, g, b) = color_manager::rgb_array_to_tuple(color);
+    context.set_source_rgba(r, g, b, 0.075);
 
-        context.set_source_rgba(r, g, b, 0.075);
-
-        for _ in 0..n_moves {
-            for particle in particles.iter_mut() {
-                particle.random_move(move_range);
-            }
-
-            draw_lines(&particles, &mut context);
-        }
-    }
+    draw_plexus(n_moves, move_range, &mut particles, &mut context);
 
     context.save();
+}
+
+fn draw_plexus(
+    n_moves: i32,
+    move_range: f32,
+    particles: &mut Vec<particle::Particle>,
+    context: &mut context_manager::ContextManager,
+) {
+    for _ in 0..n_moves {
+        for particle in particles.iter_mut() {
+            particle.random_move(move_range);
+        }
+
+        draw_lines(&particles, context);
+    }
 }
 
 fn draw_lines(particles: &Vec<particle::Particle>, context: &mut context_manager::ContextManager) {
