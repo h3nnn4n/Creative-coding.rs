@@ -33,8 +33,7 @@ fn main() {
     }
 
     ////////////
-
-    let (r, g, b) = (0.0, 0.0, 0.0);
+    // Black bg
 
     context
         .reset_clip()
@@ -42,7 +41,7 @@ fn main() {
         .line_to(screen_x as f32, 0.0)
         .line_to(0.0, screen_y as f32)
         .close_path()
-        .set_source_rgb(r, g, b)
+        .set_source_rgb(0.0, 0.0, 0.0)
         .fill_preserve()
         .clip();
 
@@ -51,8 +50,7 @@ fn main() {
     draw_plexus(n_moves, move_range, &mut particles, &mut context);
 
     ////////////
-
-    let (r, g, b) = (1.0, 1.0, 1.0);
+    // White bg
 
     context
         .reset_clip()
@@ -60,7 +58,7 @@ fn main() {
         .line_to(screen_x as f32, 0.0)
         .line_to(0.0, screen_y as f32)
         .close_path()
-        .set_source_rgb(r, g, b)
+        .set_source_rgb(1.0, 1.0, 1.0)
         .fill_preserve()
         .clip();
 
@@ -69,25 +67,45 @@ fn main() {
     draw_plexus(n_moves, move_range, &mut particles, &mut context);
 
     ////////////
+    // Black half circle
 
     context
         .reset_clip()
-        .set_source_rgb(1.0, 1.0, 1.0)
         .circle((screen_x / 2) as f32, (screen_y / 2) as f32, 250.0)
+        .clip()
+        .move_to(0.0, 0.0)
+        .line_to(screen_x as f32, 0.0)
+        .line_to(0.0, screen_y as f32)
+        .set_source_rgb(0.0, 0.0, 0.0)
         .fill_preserve()
+        .close_path()
         .clip();
 
-    let (r, g, b) = color_manager::rgb_array_to_tuple(
-        RandomColor::new()
-            .hue(Color::Red)
-            .luminosity(Luminosity::Bright)
-            // .seed(63286)
-            .to_rgb_array(),
-    );
-
-    context.set_source_rgba(r, g, b, 0.075);
+    context.set_source_rgba(1.0, 1.0, 1.0, 0.075);
 
     draw_plexus(n_moves, move_range, &mut particles, &mut context);
+
+    ////////////
+    // Black half circle
+
+    context
+        .reset_clip()
+        .circle((screen_x / 2) as f32, (screen_y / 2) as f32, 250.0)
+        .clip()
+        .move_to(screen_x as f32, screen_y as f32)
+        .line_to(screen_x as f32, 0.0)
+        .line_to(0.0, screen_y as f32)
+        .close_path()
+        .set_source_rgb(1.0, 1.0, 1.0)
+        .fill_preserve()
+        .close_path()
+        .clip();
+
+    context.set_source_rgba(0.0, 0.0, 0.0, 0.075);
+
+    draw_plexus(n_moves, move_range, &mut particles, &mut context);
+
+    ////////////
 
     context.save();
 }
